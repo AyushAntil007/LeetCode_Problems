@@ -34,19 +34,31 @@ public:
         // }
         // return true;
 
+
+
         // better solution
 
-        for (int i = 0; i < n; i++) {
-            if (isSorted(arr))
-                return true;
-            else {
-                int first = arr[0];
-                for (int j = 0; j < n - 1; j++) {
-                    arr[j] = arr[j + 1];
-                }
-                arr[n - 1] = first;
-            }
+        // for (int i = 0; i < n; i++) {
+        //     if (isSorted(arr))
+        //         return true;
+        //     else {
+        //         int first = arr[0];
+        //         for (int j = 0; j < n - 1; j++) {
+        //             arr[j] = arr[j + 1];
+        //         }
+        //         arr[n - 1] = first;
+        //     }
+        // }
+        // return false;
+
+
+        //optimal code
+
+        int count=0;
+        for(int i=0;i<n;i++){
+            if(arr[i]>arr[(i+1)%n])count++;   //take modulo to compare first and last elts
+            if(count>1)return false;
         }
-        return false;
+        return true;
     }
 };
