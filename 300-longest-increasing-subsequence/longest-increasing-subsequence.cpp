@@ -16,14 +16,24 @@ int solve(int idx,int pidx,vector<int>&nums,vector<vector<int>>&dp){
         int n=nums.size();
 
         //memeoisation
-        vector<vector<int>>dp(n,vector<int>(n+1,-1));
-        return solve(0,-1,nums,dp);
+        // vector<vector<int>>dp(n,vector<int>(n+1,-1));
+        // return solve(0,-1,nums,dp);
 
         //tabulation
-        // vector<vector<int>>dp(n,vector<int>(n+1,0));
+       vector<vector<int>> dp(n+1, vector<int>(n+1, 0)); // dp[idx][prev+1]
 
-        // for(int i=0;i<n+1;i++){
-        //     dp[n][i]=0;
-        // }
+        for (int idx = n-1; idx >= 0; idx--) {
+            for (int prev = idx-1; prev >= -1; prev--) {
+                int notTake = dp[idx+1][prev+1];
+                int take = 0;
+                if (prev == -1 || nums[idx] > nums[prev]) {
+                    take = 1 + dp[idx+1][idx+1];
+                }
+                dp[idx][prev+1] = max(take, notTake);
+            }
+        }
+
+        return dp[0][0];
+        
     }
 };
