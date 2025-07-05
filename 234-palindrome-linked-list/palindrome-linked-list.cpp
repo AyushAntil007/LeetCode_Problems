@@ -10,62 +10,48 @@
  */
 class Solution {
 public:
-    ListNode* reverse(ListNode* head) {
-        ListNode* front = head;
-        ListNode* prev = NULL;
-        ListNode* temp = head;
+ListNode* reverse(ListNode* head){
+    ListNode* temp=head;
+    ListNode*prev=NULL;
+    ListNode*front= head;
 
-        while (temp) {
-            front = temp->next;
-            temp->next = prev;
-            prev = temp;
-            temp = front;
-        }
-        return prev;
+    while(temp){
+        front =temp->next;
+        temp->next=prev;
+        prev=temp;
+        temp=front;
+
     }
+    return prev;
+}
+ 
     bool isPalindrome(ListNode* head) {
-
-        // brute forsce....store in stack
-
-        // stack<int> st;
-        // Node* temp = head;
-
-        // while (temp != NULL) {
-        //     st.push(temp->data);
-        //     temp = temp->next;
-        // }
-        // temp = head;
-
-        // while (temp != NULL) {
-        //     if (temp->data != st.top()) {
-        //         return false;
-        //     }
-        //     st.pop();
-        //     temp = temp->next;
-        // }
-        // return true;
-
-        // optimal sol....reverse opther half
-        ListNode* slow = head;
-        ListNode* fast = head;
-
-        while (fast != NULL && fast->next != NULL) {
-            fast = fast->next->next;
-            slow = slow->next;
+        if(head==NULL||head->next==NULL)return true;
+        ListNode* slow=head;
+        ListNode*fast=head;
+        while(fast&&fast->next){
+            slow=slow->next;
+            fast=fast->next->next;
         }
-        ListNode* newHead = reverse(slow);
-        ListNode* second = newHead;
-        ListNode* first = head;
+        ListNode* mid=slow;
 
-        while (second != NULL) {
-            if (second->val != first->val) {
-                reverse(newHead);
-                return false;
-            }
-            first = first->next;
-            second = second->next;
+        ListNode*temp=head;
+        while(temp->next!=mid){
+            temp=temp->next;
         }
-        reverse(newHead);
+        temp->next=NULL;
+
+        ListNode*head2=reverse(mid);
+
+        ListNode*temp1=head;
+        ListNode*temp2=head2;
+        while(temp1){
+            if(temp1->val!=temp2->val)return false;
+            temp1=temp1->next;
+            temp2=temp2->next;
+
+        }
+
         return true;
     }
 };
