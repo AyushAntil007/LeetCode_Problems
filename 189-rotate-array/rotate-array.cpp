@@ -1,47 +1,52 @@
 class Solution {
 public:
-    void reverse(vector<int>&nums, int start, int end) {
-        while (start <= end) {
-            int temp = nums[start];
-            nums[start] = nums[end];
-            nums[end] = temp;
-            start++;
-            end--;
-        }
+
+void reverse(vector<int>&nums,int start,int end){
+    while(start<=end){
+        swap(nums[start],nums[end]);
+        start++;
+        end--;
     }
+}
     void rotate(vector<int>& nums, int k) {
-        int n = nums.size();
-        k = k % n; // to ignore the full array rotation
+        int n=nums.size();
+        if(n==1||k==0)return;
 
-        if (n == 0 || k == 0)
-            return;
+        //Approach-1.....Shifting 
 
-        // brute force
-
-        // for (int i = 0; i < k; i++) {
-        //     int temp = nums[n - 1]; // last elt store
-        //     for (int j = n - 1; j >= 1; j--) {
-        //         nums[j] = nums[j - 1]; // rotate right
+        // for(int i=0;i<k;i++){
+        //     int temp=nums[n-1];
+        //     for(int j=n-1;j>0;j--){
+        //         nums[j]=nums[j-1];
         //     }
-        //     nums[0] = temp; //store last at first
+        //     nums[0]=temp;
         // }
 
-        // better solution
+        //Approach-2.....Storing
 
-        // int temp[k];
-        // for (int i = n - k; i < n; i++) {
-        //     temp[i - n + k] = nums[i]; // copy rotated elts
+        // vector<int>temp(k+1);
+
+        // for(int i=n-k;i<n;i++){
+        //     temp[i-(n-k)]=nums[i];
         // }
-        // for (int i = n - k - 1; i >= 0; i--) {
-        //     nums[i + k] = nums[i]; // shifting
+        // for(int i=n-k-1;i>=0;i--){
+        //     nums[i+k]=nums[i];
         // }
-        // for (int i = 0; i < k; i++) {
-        //     nums[i] = temp[i]; // paste elts
+        // for(int i=0;i<k;i++){
+        //     nums[i]=temp[i];
         // }
 
-        // optimal solution
-        reverse(nums, 0, n - k-1);
-        reverse(nums, n - k , n-1);
-        reverse(nums, 0, n-1);
+
+        //Approach-3.....3 times reverse
+        
+        k=k%n;
+        reverse(nums,0,n-k-1);
+        reverse(nums,n-k,n-1);
+        reverse(nums,0,n-1);
+
+
+
+
+        
     }
 };
