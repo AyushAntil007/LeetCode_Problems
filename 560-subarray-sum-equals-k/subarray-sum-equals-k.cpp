@@ -1,44 +1,38 @@
 class Solution {
 public:
     int subarraySum(vector<int>& arr, int k) {
-        int n = arr.size();
-        int cnt = 0;
-        // brute force
-        //  for (int i = 0; i < n; i++) {
-        //      for (int j = i; j < n; j++) {
-        //          int sum = 0;
-        //          for (int K = i; K <= j;
-        //               K++) // calculate the sum of subarray [i...j]
-        //              sum += arr[K];
-        //          if (sum == k)
-        //              cnt++;
-        //      }
-        //  }
-        //  return cnt;
+        int count=0;
+        int n=arr.size();
 
-        // better sol
-        //        for (int i = 0 ; i < n; i++) {
-        //      int sum = 0;
-        //      for (int j = i; j < n; j++) {
-        //          sum += arr[j];
-        //          if (sum == k)
-        //              cnt++;
-        //      }
-        //  }
-        //  return cnt;
+        //Approach-1....using for loops
 
-        // optimal sol
+        // for(int i=0;i<n;i++){
+        //     int sum=0;
+        //    
+        //     for(int j=i+1;j<n;j++){
+        //         sum+=arr[j];
+        //         if(sum==k){
+        //             count++;
+        //         }
+        //     }
+        // }
+        // return count;
 
-        map<int, int> mpp;
-        mpp[0] = 1; //*****important if we directly get sum==k
-        int sum = 0;
 
-        for (int i = 0; i < n; i++) { // concept of the prefix sum
-            sum += arr[i];        //x
-            int remove = sum - k; //  x-k
-            cnt += mpp[remove];    //****many possible solns
-            mpp[sum]++;            //store sum
+        //Approach-2....using mapping
+
+        unordered_map<int,int>mpp;
+        int sum=0;
+        for(int i=0;i<n;i++){
+            sum+=arr[i];
+            if(sum==k)count++;
+
+            int rem=sum-k;
+            if(mpp.find(rem)!=mpp.end()){
+                count+=mpp[rem];
+            }
+            mpp[sum]++;
         }
-        return cnt;
+        return count;
     }
 };
