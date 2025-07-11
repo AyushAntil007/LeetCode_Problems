@@ -6,50 +6,49 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
 
-        queue<pair<TreeNode*, pair<int, int>>> todo;
-        map<int, map<int, multiset<int>>> nodes; //{x,{y,node}}
+        vector<vector<int>>ans;
+        if(root==NULL)return ans;
 
-        todo.push({root, {0, 0}});
+        map<int,map<int,multiset<int>>>mpp;
 
-        while (!todo.empty()) {
-            auto p = todo.front(); // automatically deduct the type
-            todo.pop();
 
-            TreeNode* temp = p.first;
-            int x = p.second.first;
-            int y = p.second.second;
-            nodes[x][y].insert(temp->val);
+        queue<pair<TreeNode*,pair<int,int>>>q;
 
-            if (temp->left) {
+        q.push({root,{0,0}});
 
-                todo.push({temp->left, {x - 1, y + 1}}); // row-1, col+1
-            }
-            if (temp->right) {
+        while(!q.empty()){
+            
+            auto nodeMap=q.front();
+            q.pop();
 
-                todo.push({temp->right, {x + 1, y + 1}}); // row+1,col+1
-            }
+            int x=nodeMap.second.first;
+            int y=nodeMap.second.second;
+
+            TreeNode* node=nodeMap.first;
+
+            mpp[x][y].insert(node->val);
+
+            if(node->left)q.push({node->left,{x-1,y+1}});
+            if(node->right)q.push({node->right,{x+1,y+1}});
+
+
+
         }
 
-        vector<vector<int>> ans;
-        for (auto p : nodes) { // traverse vertical ie x
-            vector<int> col;
-            for (auto q : p.second) { // traverse the levels ie y
-                // Insert node values
-                // into the column vector
-                col.insert(col.end(), q.second.begin(), q.second.end());
+        for(auto x:mpp){
+            vector<int>vertical;
+            for(auto y: x.second){
+                vertical.insert(vertical.end(),y.second.begin(),y.second.end());
             }
-            // Add the column vector
-            // to the final result
-            ans.push_back(col);
+            ans.push_back(vertical);
         }
-        return ans;
+        return ans; 
     }
 };
