@@ -1,36 +1,52 @@
 class Solution {
 public:
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
-        int orig_col=image[sr][sc];
+
+void bfs(int sr,int sc,vector<vector<int>>&image,vector<vector<int>>&vis,queue<pair<int,int>>&q,int color,int n,int m){
+    
+   int initColor=image[sr][sc];
+
+    vis[sr][sc]=1;
+    image[sr][sc]=color;
+    q.push({sr,sc});
+
+    int dr[4]={-1,0,1,0};
+    int dc[4]={0,1,0,-1};
+
+    while(!q.empty()){
+
+
+        int r=q.front().first;
+        int c=q.front().second;
+
+        q.pop();
+
+        for(int i=0;i<4;i++){
+            int nr=r+dr[i];
+            int nc=c+dc[i];
+            if(nr>=0&&nr<m && nc>=0&&nc<n  && image[nr][nc]==initColor&& !vis[nr][nc]){
+                    vis[nr][nc]=1;
+                    image[nr][nc]=color;
+                    q.push({nr,nc});
+                }
+         }
+
+    }
         
-        if (image[sr][sc] == color) return image;
+}
+    
+
+
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
         
         int m=image.size();
         int n=image[0].size();
 
-        queue<pair<int,int>>fill;
-        fill.push({sr,sc});
+        vector<vector<int>>vis(m,vector<int>(n,0));
+        queue<pair<int,int>>q;
 
-        int dx[4]={0,+1,0,-1};
-        int dy[4]={+1,0,-1,0};
-
-        while(!fill.empty()){
-            int x=fill.front().first;
-            int y=fill.front().second;
-            
-            fill.pop();
-            image[x][y]=color;
-
-            for(int i=0;i<4;i++){
-                int nx=x+dx[i];
-                int ny=y+dy[i];
-                if(nx<0||ny<0||nx>=m||ny>=n||image[nx][ny]!=orig_col)continue;
-                if(image[nx][ny]==orig_col){
-                     fill.push({nx,ny});
-                }
-                
-            }
-        }
+        bfs(sr,sc,image,vis,q,color,n,m);
+        
         return image;
+        
     }
 };
