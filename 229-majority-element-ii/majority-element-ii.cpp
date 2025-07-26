@@ -1,79 +1,39 @@
 class Solution {
 public:
-    vector<int> majorityElement(vector<int>& v) {
-        int n = v.size();
+    vector<int> majorityElement(vector<int>& nums) {
+        int cnt1=0,cnt2=0;
+        int elt1=INT_MIN,elt2=INT_MIN;
 
-        // brute force
-        //  vector<int> ls;
+        vector<int>ans;
 
-        // for (int i = 0; i < n; i++) {
-        //     int cnt = 0;
-        //     if (ls.size() == 0 ||
-        //         ls[0] != v[i]) { // as max two elts that can be > n/3
-        //         for (int j = 0; j < n; j++) {
-        //             if (v[j] == v[i]) {
-        //                 cnt++;
-        //             }
-        //         }
-        //         if (cnt > (n / 3))
-        //             ls.push_back(v[i]);
-        //     }
-        // }
+        int n=nums.size();
 
-        // return ls;
+        for(int i=0;i<n;i++){
 
-        // better sol
-        //  vector<int>ls;
-        //  unordered_map<int ,int>freq;
-        //  for(int i=0;i<n;i++){
-        //      freq[v[i]]++;
-        //  }
-        //  // for(int i=0;i<n;i++){      //***it will count duplicate also
-        //  //     if(freq[v[i]]>n/3){
-        //  //        ls.push_back(v[i]);
-        //  //     }
-        //  // }
-
-        // for(auto it:freq){          //*****avoid duplicates
-        //     if(it.second>n/3){
-        //         ls.push_back(it.first);
-        //     }
-        // }
-        // return ls;
-
-        // Optimal Approach (Extended Boyer Moore’s Voting Algorithm):
-
-        int elt1, elt2, cnt1 = 0, cnt2 = 0;
-
-        vector<int> ls;
-        for (int i = 0; i < n; i++) {
-            if (cnt1 == 0 && v[i] != elt2) {  // when elt is fully cancelled
-                cnt1 = 1;
-                elt1 = v[i];
-            } else if (cnt2 == 0 && v[i] != elt1) {
-                cnt2 = 1;
-                elt2 = v[i];
-            } else if (v[i] == elt1) {  //frequency
-                cnt1++;
-            } else if (v[i] == elt2) {  //frequency
-                cnt2++;
-            } else {     //cancelling
-                cnt1--;
-                cnt2--;
+            if(cnt1==0&& elt2!=nums[i]){
+                elt1=nums[i];
+                cnt1=1;
             }
+            else if(cnt2==0&& elt1!=nums[i]){
+                elt2=nums[i];
+                cnt2=1;
+            }
+            else if(nums[i]==elt1)cnt1++;
+            else if(nums[i]==elt2)cnt2++;
+
+            else cnt1--,cnt2--;
+
         }
-        cnt1 = 0, cnt2 = 0;
-        for (int i = 0; i < n; i++) {
-            if (v[i] == elt1) {
-                cnt1++;
-            }
-            if (v[i] == elt2) {
-                cnt2++;
-            }
-        }
-         if (cnt1 > n / 3) ls.push_back(elt1);
-        if (cnt2 > n / 3 && elt1 != elt2) ls.push_back(elt2);   //  check for duplicate
+        // Reset counts to verify actual frequency
+       cnt1 = cnt2 = 0;
+for (int num : nums) {
+    if (num == elt1) cnt1++;
+    else if (num == elt2) cnt2++;
+}
 
-        return ls;
+        if(cnt1>n/3)ans.push_back(elt1);
+        if(cnt2>n/3)ans.push_back(elt2);
+
+        return ans;
     }
 };
