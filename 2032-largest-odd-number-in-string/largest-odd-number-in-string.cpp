@@ -1,24 +1,23 @@
 class Solution {
 public:
     string largestOddNumber(string num) {
-        
         int n=num.length();
 
+        int i=n-1;
         int start=0;
         int end=n-1;
-        
+
         string ans="";
-        for(int i=n-1;i>=0;i--){
-            if(num[i]%2==0){
-                end--;
-            }
-            else{
-                if(start<=end){
-                    ans+=num.substr(start,end+1);
-                    return ans;
-                }
+
+        while(i>=0){
+            while(i>=0&& num[i]%2==0)i--;
+            end=i;
+            if(start<=end){
+                ans+=num.substr(start,end-start+1);
+                break;
             }
         }
-        return "";
+        return ans;
+        
     }
 };
