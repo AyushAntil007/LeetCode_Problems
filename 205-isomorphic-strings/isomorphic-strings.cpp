@@ -1,24 +1,25 @@
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
+        int n1=s.length();
+        int n2=t.length();
 
-        if (s.length() != t.length())
-            return false;
+        unordered_map<char,int>mpps;
+        unordered_map<char,int>mppt;
 
-        unordered_map<char, char> mpps, mppt;
+        for(int i=0;i<n1;i++){
 
-        for (int i = 0; i < s.length(); i++) {
-            char c1 = s[i], c2 = t[i];
-            
-            //. No two characters may map to the same character, but a character may map to itself.
-            if (mpps.count(c1) && mpps[c1] != c2)
-                return false;
-            if (mppt.count(c2) && mppt[c2] != c1)
-                return false;
-            mpps[c1] = c2;
-            mppt[c2] = c1;
+            if(mpps.find(s[i])!=mpps.end()){
+                if(mpps[s[i]]!=t[i])return false;
+            }
+            if(mppt.find(t[i])!=mppt.end()){
+                if(mppt[t[i]]!=s[i])return false;
+            }
+            mpps[s[i]]=t[i];
+            mppt[t[i]]=s[i];
+
+
         }
-
         return true;
     }
 };
