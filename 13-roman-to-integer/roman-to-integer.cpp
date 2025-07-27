@@ -16,11 +16,11 @@ public:
         };
 
 
-    for(int i=0;i<n-1;i++){
-        if(mpp[s[i]]<mpp[s[i+1]])ans-=mpp[s[i]];
+    for(int i=0;i<n;i++){
+        if(i<n-1 &&mpp[s[i]]<mpp[s[i+1]])ans-=mpp[s[i]];
         else ans+=mpp[s[i]];
     }
-    ans+=mpp[s[n-1]];
+    
     return ans;
 
 
