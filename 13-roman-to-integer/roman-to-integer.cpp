@@ -2,27 +2,28 @@ class Solution {
 public:
     int romanToInt(string s) {
 
-        
-        unordered_map<char,int>prior;
+        int n=s.length();
+        int ans=0;
+        unordered_map<char, int> mpp = {
+    {'I', 1},
+    {'V', 5},
+    {'X', 10},
+    {'L', 50},
+    {'C', 100},
+    {'D', 500},
+    {'M', 1000}
 
-        prior['I']=1;
-        prior['V']=5;
-        prior['X']=10;
-        prior['L']=50;
-        prior['C']=100;
-        prior['D']=500;
-        prior['M']=1000;
+        };
 
-        int n=s.size();
-        int digit=prior[s[n-1]];
-        for(int i=n-2;i>=0;i--){
-            if(prior[s[i]]<prior[s[i+1]]){
-                 digit-=prior[s[i]];
-            }
-            else{
-                digit+=prior[s[i]];
-            }
-        }
-        return digit;
+
+    for(int i=0;i<n-1;i++){
+        if(mpp[s[i]]<mpp[s[i+1]])ans-=mpp[s[i]];
+        else ans+=mpp[s[i]];
+    }
+    ans+=mpp[s[n-1]];
+    return ans;
+
+
+      
     }
 };
