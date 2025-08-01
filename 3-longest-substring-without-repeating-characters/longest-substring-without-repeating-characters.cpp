@@ -2,22 +2,26 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         int n=s.length();
-        int maxLen=0;
-        vector<int>idx(256,-1);
 
-        int l=0, r=0;
+        if(n==0||n==1)return n;
+        int len=0;
+        
 
-        while(r<n){
-            if(idx[s[r]]>=l){
-                l=idx[s[r]]+1;
+        for(int i=0;i<n;i++){
+            set<int>st;
+            for(int j=i;j<n;j++){
+                if(st.find(s[j])!=st.end()){
+                     len=max(len,j-i);
+                    break;
+                    
+                }
+                
+                st.insert(s[j]);
                 
             }
-            
-            maxLen=max(maxLen,r-l+1);
-            idx[s[r]]=r;
-            r++;
+            len=max(len,(int)st.size());
         }
-
-        return maxLen;
+       
+       return len;
     }
 };
