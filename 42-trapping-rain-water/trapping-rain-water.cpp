@@ -20,7 +20,10 @@ public:
 
         int count=0;
         for( int i=0; i<n; i++){
-            count+=min(preSum[i], postSum[i])-height[i];
+            if(height[i]<preSum[i]  &&  height[i]<postSum[i]){
+                count+=min(preSum[i], postSum[i])-height[i];
+            }
+            
         }
 
         return count;
