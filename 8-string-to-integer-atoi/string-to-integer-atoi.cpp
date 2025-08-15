@@ -1,41 +1,39 @@
 class Solution {
 public:
     int myAtoi(string s) {
-        
-        long long digit=0;
-        bool neg=false;
-        bool pos=false;
+        int n=s.length();
 
-        
-        int n=s.size();
-        
+        bool neg=false;
+
         int i=0;
 
-        while(i<n && s[i]==' '){
+        while(i<n && s[i]==' ')i++;
+
+        if(i<n&& s[i]=='-'){
+            neg=true;
             i++;
         }
-        if(i<n && (s[i]=='+'|| s[i]=='-')){
-            if(s[i]=='+')pos=true;
-            if(s[i]=='-')neg=true;
-            i++;
+        if(i<n && !neg && s[i]=='+')i++;
+
+        while(i<n && s[i]=='0')i++;
+
+       long long nums=0;
+
+        for(int j=i; j<n; j++){
+            if(s[j]<='9'  && s[j]>='0'){
+                 nums=nums*10+s[j]-'0';
+                if(nums > INT_MAX )
+                   return neg ? INT_MIN : INT_MAX;
+               
+                
+            }
+            else break;
         }
 
-        while(i<n){
-           if(s[i]>='0'&&s[i]<='9'){
-                digit=digit*10+(s[i]-'0');
-                if(digit>INT_MAX){
-                    if(neg)return INT_MIN;
-                    else return INT_MAX;
-                }    
-            }
-            else {
-              break;
-            }
-            i++;
-        }
-        
+        return neg?-nums:nums;
 
-        if(neg)digit=-digit;
-        return digit;
+
+
+
     }
 };
