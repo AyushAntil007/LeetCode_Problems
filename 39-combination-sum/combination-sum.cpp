@@ -1,29 +1,28 @@
 class Solution {
 public:
-    void comb(int i, int t, vector<int>& cand, vector<int>& store,
-              vector<vector<int>>& ans) {
-
-        if (i >= cand.size() || t < 0) // boundary conditions
-            return;
-        if (t == 0) { // when target becomes zero
-            ans.push_back(store);
+  void solve(int i, vector<int>&nums, vector<vector<int>>&ans,vector<int>&layer,int k){
+        if(i==nums.size()){
+            if(k==0){
+                ans.push_back(layer);
+            }
+           
             return;
         }
+        
 
-        store.push_back(cand[i]);
-        t -= cand[i];
-        comb(i, t, cand, store,
-             ans); // taking same element  and ....reduce the target
-        store.pop_back();
-        t += cand[i];
-
-        comb(i + 1, t, cand, store, ans); // not taking the same element
+        if(nums[i]<=k){
+            layer.push_back(nums[i]);
+            solve(i,nums,ans,layer,k-nums[i]);
+            layer.pop_back();
+        }
+        
+        solve(i+1,nums,ans,layer,k);
     }
-    vector<vector<int>> combinationSum(vector<int>& cand, int target) {
-        vector<vector<int>> ans;
-        vector<int> store;
-
-        comb(0, target, cand, store, ans);
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>>ans;
+        vector<int>layer;
+        
+        solve(0,candidates,ans,layer,target);
         return ans;
     }
 };
