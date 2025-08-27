@@ -38,7 +38,7 @@ void solve(TreeNode*root, TreeNode* &prev, TreeNode*&first, TreeNode*&mid, TreeN
 
         //swap nodes aree not adjacent
 
-        TreeNode*prev=new TreeNode(INT_MIN);
+        TreeNode*prev=NULL;
         TreeNode*first=NULL;
         TreeNode*mid=NULL;
         TreeNode*last=NULL;
