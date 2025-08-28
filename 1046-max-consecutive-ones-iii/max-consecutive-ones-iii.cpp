@@ -1,56 +1,37 @@
 class Solution {
 public:
     int longestOnes(vector<int>& nums, int k) {
+      //  int len=0;
         int n=nums.size();
-        int len=INT_MIN;
 
-        // brute force
-
-
-        // for(int i=0;i<n;i++){
-        //     int cnt1=0;
+        // for(int i=0; i<n; i++){
         //     int cnt0=0;
-
-        //     for(int j =i; j<n ;j++){
-
-        //         if(nums[j]==1)cnt1++;
-        //         else{
-        //             if(cnt0==k){
-        //                 break;
-        //             }
-        //             cnt1++;
-        //             cnt0++;
-
-                    
+        //     for(int j=i; j<n; j++){
+        //         if(nums[j]==0)cnt0++;
+               
+        //         if(cnt0>k){
+        //             break;
         //         }
+        //          len=max(len,j-i+1);
+
         //     }
-        //     len=max(len,cnt1);
         // }
-
-
-
-        // 2 pointers
+        // return len;
 
 
         int left=0,right=0;
-        int cnt0=0;
+       vector<int>vec(2,0);
+        int len=INT_MIN;
 
-        while(right<n){
-            if(nums[right]==1)right++;
-            else{
-                if(cnt0==k){
-                    if(nums[left]==0)cnt0--;
-                    left++;
-                    
-                }
-                else{
-                    cnt0++;
-                     right++;
-                }
-               
-               
+        while(right<nums.size()){
+          vec[nums[right]]++;
+            while(vec[0]>k){
+                vec[nums[left]]--;
+                left++;
             }
-            len=max(len,right-left);
+            len=max(right-left+1, len);
+            right++;
+
         }
 
         return len;
