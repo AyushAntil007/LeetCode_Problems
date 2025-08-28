@@ -1,26 +1,48 @@
 class Solution {
 public:
-int solve(vector<int>&nums,int goal){
-    int n=nums.size();
-    int cnt=0;
+int solve(vector<int>&nums,int k){
+    int right=0,left=0;
+        int odd=0;
+        int n=nums.size();
+        int cnt=0;
 
-        int r=0,l=0;
-        long long odd=0;
+        while(right<n){
+            if(nums[right]%2!=0)odd++;
 
-        while(r<n){
-            if(nums[r]%2==1)odd++;
-            while(l<=r && odd>goal){
-                    if(nums[l]%2==1)odd--;
-                    l++;    
+            while(odd>k){
+                if(nums[left]%2!=0)odd--;
+                left++;
             }
-           
-            if(odd<=goal)cnt=cnt+r-l+1;
-            r++;
+
+            if(odd<=k)cnt+=right-left+1;
+            right++;
+
         }
         return cnt;
-
 }
     int numberOfSubarrays(vector<int>& nums, int k) {
-         return solve(nums,k)-solve(nums,k-1);   // important
+        int cnt=0;
+
+        int n=nums.size();
+
+        // for(int i=0; i<n; i++){
+        //     int odd=0;
+        //     for(int j=i; j<n; j++){
+
+        //         if(nums[j]%2!=0)odd++;
+
+        //         if(odd==k){
+        //             cout<<"hi";
+        //             cnt++;
+                    
+        //         }
+
+        //     }
+            
+        // }
+         
+
+         return solve(nums,k)-solve(nums,k-1);
+        
     }
 };
