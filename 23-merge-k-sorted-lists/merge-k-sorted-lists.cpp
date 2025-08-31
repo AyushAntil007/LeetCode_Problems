@@ -8,40 +8,47 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
- // Custom comparator for the priority queue
-struct Compare {
-    bool operator()(ListNode* a, ListNode* b) {
-        return a->val > b->val; // Min-heap based on node value
-    }
-};
-
 class Solution {
 public:
-   ListNode* mergeKLists(vector<ListNode*>& lists) {
 
-        priority_queue<ListNode*, vector<ListNode*>, Compare> minHeap;
+    struct comp{
+        bool operator()(ListNode* a, ListNode* b) {
+            return a->val > b->val;
+        }
+    };
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
 
-        for (ListNode* node : lists) {
-            if(node){
-                minHeap.push(node);
+        ListNode* newHead=new ListNode(-1);
+        ListNode* temp=newHead;
+
+        priority_queue<ListNode*, vector<ListNode*>,comp>pq;
+
+        for(auto it :  lists){
+            if(it){      //check NULL also********
+              pq.push(it);
             }
+            
         }
 
-        ListNode* mergeHead = new ListNode(-1);
-        ListNode* temp = mergeHead;
+        while(!pq.empty()){
+            ListNode* node= pq.top();
+            pq.pop();
 
-        while (!minHeap.empty()) {
-            ListNode* newNode = minHeap.top();
-            minHeap.pop();
-            temp->next = newNode;
-            temp = temp->next;
-
-            if (newNode->next) {
-                minHeap.push(newNode->next);
+            temp->next=node;
+            temp=temp->next;
+            
+            if(temp->next){
+                pq.push(temp->next);
+                temp->next=NULL;
             }
+
+           
+            
+
         }
 
-        return mergeHead->next;
+        return newHead->next;
+
+        
     }
 };
