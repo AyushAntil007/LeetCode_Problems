@@ -11,58 +11,74 @@
 class Solution {
 public:
 
-ListNode* findk(ListNode* temp,int k){
-    while(k>1&& temp){
-        k--;
+ListNode* reverse(ListNode* head) {
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+
+        while (curr) {
+            ListNode* nextNode = curr->next; // save next
+            curr->next = prev;              // reverse pointer
+            prev = curr;                    // move prev
+            curr = nextNode;                // move curr
+        }
+
+        return prev; // new head
+    }
+
+ListNode* findK(ListNode* root,int k){
+    ListNode* temp=root;
+
+    int cnt=k-1;
+    while(cnt--&& temp){
         temp=temp->next;
     }
+
     return temp;
 }
-void reverse(ListNode* head){
-    ListNode*temp=head;
-    ListNode*prev=NULL;
-    ListNode* front=NULL;
-
-    while(temp){
-        front=temp->next;
-        temp->next=prev;
-        prev=temp;
-        temp=front;
-    }
-    
-}
     ListNode* reverseKGroup(ListNode* head, int k) {
+        if(head==NULL|| head->next==NULL||k==1)return head;
+
+
+     
+        ListNode*prev=NULL;
+      
+
         ListNode* temp=head;
-        ListNode*prevNode=NULL;
-        ListNode* nextNode=NULL;
 
 
         while(temp){
-            ListNode* kNode=findk(temp,k);
 
-            if(kNode==NULL){
-                if(prevNode==NULL)return temp;
-                else{
-                    prevNode->next=temp;
-                    break;
-                }
-            }
-            nextNode=kNode->next;
-            kNode->next=NULL;
-       
-           
-            reverse(temp);
-             
-           
-            
-            if(temp==head)head=kNode;
-            else{
-                prevNode->next=kNode;
-            }
 
-            prevNode=temp;
-            temp=nextNode;
+           ListNode* knode=findK(temp,k);
+
+           cout<<"hi"<<" ";
+
+           if(knode==NULL){
+            if(!prev)return head;
+            else {
+                prev->next=temp;
+                return head;
+            }
+           }
+
+           ListNode* front=knode->next;
+           knode->next=NULL;
+
+           ListNode*newHead=reverse(temp);
+
+           if(temp==head)head=newHead;
+           else{
+            prev->next=newHead;
+           }
+
+            prev=temp;
+           
+           
+            temp=front;
+
+         
         }
+
         return head;
     }
 };
