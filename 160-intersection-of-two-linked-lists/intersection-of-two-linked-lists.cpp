@@ -8,39 +8,39 @@
  */
 class Solution {
 public:
-    ListNode *getIntersectionNode(ListNode *head1, ListNode *head2) {
-        //brute force........using two loops and compare nodes
-    //     while(head2 != NULL) {
-    //     ListNode* temp = head1;  // ik LL puri traverse hogi baar baar
-    //     while(temp != NULL) {
-    //         //if both nodes are same
-    //         if(temp == head2) return head2;
-    //         temp = temp->next;
-    //     }
-    //     head2 = head2->next;
-    // }
-    // return NULL;
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
 
-    //beter sol....using hashing
+        stack<ListNode*>st1;
+        stack<ListNode*>st2;
 
-    unordered_map<ListNode*,bool>mpp;
-    ListNode*temp1=head1;
-    ListNode*temp2=head2;
-    while(temp1){
-        mpp[temp1]=true;
-        temp1=temp1->next;
-    }
-    while(temp2){
-        if(mpp[temp2]==true)return temp2;
-        temp2=temp2->next;
-    }
-    return NULL;
+        ListNode* tempA=headA;
+        ListNode* tempB=headB;
 
 
-    //optimise sol......difference length
+        while(tempA){
+            st1.push(tempA);
+            tempA=tempA->next;
+        }
+
+        while(tempB){
+            st2.push(tempB);
+            tempB=tempB->next;
+        }
+
+        ListNode* inters=NULL;
 
 
-    
+        while(!st1.empty()&&!st2.empty()){
+            if(st1.top()==st2.top()){
+                inters=st1.top();
+                st1.pop();
+                st2.pop();
+
+            }
+            else break;
+            
+        }
+        return inters;
 
     }
 };
