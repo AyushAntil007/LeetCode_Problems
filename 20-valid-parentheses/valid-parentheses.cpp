@@ -4,32 +4,28 @@ public:
 
         int n = s.length();
 
-        if (n % 2 != 0)
-            return false;
+        if(n%2 != 0)return false;
 
-        stack<char> st;
+        stack<char>st;
 
-        for (int i = 0; i < n; i++) {
 
-            if (s[i] == '(' || s[i] == '{' || s[i] == '[')
-                st.push(s[i]);
+        for(int i=0; i<n; i++) {
 
-            else {
-                if (st.empty())
-                    return false;
+            if(s[i]== '(' || s[i] == '['  || s[i] == '{')st.push(s[i]);
 
-                if ((s[i] == ')' && st.top() == '(') ||
-                    (s[i] == ']' && st.top() == '[') ||
-                    (s[i] == '}' && st.top() == '{')) {
-                    st.pop();
-                    continue;
-                } else
-                    return false;
+            else{
+                if(!st.empty() && s[i] == ')' && st.top() == '(')st.pop();
+                else if(!st.empty() && s[i] == ']' && st.top() == '[')st.pop();
+                else  if(!st.empty() && s[i] == '}' && st.top() == '{')st.pop();
+
+                
+                else return false;
             }
+           
         }
 
-        if (st.empty())
-            return true;
+        if(st.empty())return true;
         return false;
+        
     }
 };
